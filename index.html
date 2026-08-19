@@ -1,70 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>바다거북 수프 추리 게임</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>추리 데모 — 우주 고양이</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🔍 바다거북 수프 추리 게임</h1>
-            <p>탐정과 함께 미스터리를 풀어보세요!</p>
+  <div class="app">
+    <div class="board" role="application" aria-label="추리 데모">
+      <div class="left">
+        <div class="space-box" id="spaceBox" aria-hidden="false">
+          <div class="cat" id="cat" title="말풍선을 클릭해 질문을 꺼내세요 (고양이가 대답합니다)">
+            <!-- 인라인 SVG 고양이 (선명하고 투명 배경) -->
+            <svg width="180" height="180" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+              <g transform="translate(0,0)">
+                <!-- 몸통 -->
+                <path d="M30 100 Q10 70 20 40 Q30 10 60 20 Q80 10 100 20 Q130 30 130 70 Q135 90 120 110 Q110 125 100 130 Q70 140 40 130 Q30 125 20 110 Z" fill="#000"/>
+                <!-- 눈 (노란) -->
+                <ellipse cx="80" cy="70" rx="14" ry="18" fill="#ffd400"/>
+                <ellipse cx="120" cy="70" rx="14" ry="18" fill="#ffd400"/>
+                <!-- 동공 -->
+                <circle cx="80" cy="72" r="4" fill="#000"/>
+                <circle cx="120" cy="72" r="4" fill="#000"/>
+                <!-- 코 -->
+                <ellipse cx="100" cy="88" rx="5" ry="3" fill="#4b4247"/>
+                <!-- 꼬리 라인 -->
+                <path d="M25 105 Q70 125 115 105" stroke="#2f2f2f" stroke-width="3" fill="none" stroke-linecap="round"/>
+              </g>
+            </svg>
+
+            <div class="bubble small" id="bubble">말풍선을 클릭해 질문을 꺼내세요</div>
+          </div>
         </div>
 
-        <div class="content">
-            <div class="detective-section">
-                <div class="detective-image">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 350'%3E%3Crect fill='%23e8d4b8' width='300' height='350'/%3E%3C/svg%3E" alt="탐정" id="detectiveImage">
-                </div>
-                <div class="detective-speech" id="detectiveSpeech">
-                    "안녕하세요! 저는 이 미스터리의 탐정입니다. 여러분의 질문에 성실하게 답변하겠습니다."
-                </div>
-            </div>
-
-            <div class="game-section">
-                <div class="story-box">
-                    <h3>📖 이야기</h3>
-                    <p>한 남자가 특별한 레스토랑에 있습니다. 그는 바다거북 수프를 주문합니다. 수프를 한 숟가락 맛본 후, 그는 주방장을 불러와 "이게 정말 바다거북 수프인가요?"라고 묻습니다. 주방장이 "네, 틀림없는 바다거북입니다"라고 대답하자, 남자는 고개를 끄덕이고 조용히 수프를 마시다 갑자기 식탁을 떠나 집으로 돌아갑니다.</p>
-                    <p style="margin-top: 10px;"><strong>❓ 대체 무슨 일이 있었을까요?</strong></p>
-                </div>
-
-                <div class="question-input-area">
-                    <label for="questionInput">질문을 입력하세요 (예/아니오로 답할 수 있는 질문):</label>
-                    <div class="input-group">
-                        <input type="text" id="questionInput" placeholder="예: 남자는 독점적인 소유입니까?" />
-                        <button onclick="askQuestion()">질문하기</button>
-                    </div>
-                </div>
-
-                <div class="conversation-history" id="conversationHistory">
-                    <p style="text-align: center; color: #999;">질문을 시작해보세요!</p>
-                </div>
-
-                <div class="stats">
-                    <div class="stat-item">
-                        <div class="stat-number" id="questionCount">0</div>
-                        <div class="stat-label">질문 수</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" id="attemptCount">0</div>
-                        <div class="stat-label">정답 시도</div>
-                    </div>
-                </div>
-
-                <div class="answer-section">
-                    <h3>🎯 정답을 맞혀보세요!</h3>
-                    <div class="answer-input-group">
-                        <input type="text" id="answerInput" placeholder="무슨 일이 있었는지 입력하세요..." />
-                        <button onclick="submitAnswer()">정답 제출</button>
-                    </div>
-                    <div id="resultMessage"></div>
-                </div>
-            </div>
+        <div class="controls">
+          <button id="nextBtn" class="primary">다음 질문 (랜덤)</button>
+          <button id="shuffleBtn">셔플</button>
+          <button id="resetBtn">리셋</button>
+          <button id="toggleListBtn">문항 목록 보기/숨기기</button>
         </div>
+
+        <div class="tw" id="tw">내용 주의: 이 시나리오는 사망/자살 관련 민감한 소재를 포함합니다. 학급에서 사용할 때는 사전 안내와 상담 리소스를 준비하세요.</div>
+        <footer>이미지 교체를 원하면 styles.css의 --space-image-url 값을 바꾸세요.</footer>
+      </div>
+
+      <div class="right">
+        <div class="panel" id="logPanel">
+          <div class="meta">질문·답 로그 (최근 50개)</div>
+          <div id="log" tabindex="0" aria-live="polite"></div>
+        </div>
+
+        <div class="panel" id="bankPanel" style="display:none;">
+          <div class="meta">질문 은행 (랜덤으로 나옵니다)</div>
+          <div id="bank"></div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <script src="script.js"></script>
+  <script src="app.js" defer></script>
 </body>
 </html>
