@@ -157,21 +157,10 @@
     }, 550);
   }
 
-  function initReveal() {
-    var btn = document.getElementById("revealBtn");
-    var body = document.getElementById("revealBody");
-    btn.addEventListener("click", function () {
-      var open = !body.hidden;
-      body.hidden = open;
-      btn.textContent = open ? "진상 확인하기" : "진상 숨기기";
-    });
-  }
-
   document.addEventListener("DOMContentLoaded", function () {
     buildStars();
     renderCat();
     renderLog();
-    initReveal();
 
     document.getElementById("askBtn").addEventListener("click", ask);
     document.getElementById("catBtn").addEventListener("click", ask);
