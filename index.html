@@ -1,56 +1,76 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>추리 데모 — 우주 고양이 (사용자 이미지)</title>
-  <!-- 구글 폰트는 선택사항입니다. 인터넷 연결이 없으면 시스템 폰트가 사용됩니다. -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>술과 담배 — 바다거북 스프 퀴즈</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="app" aria-label="바다거북 스프 추리 데모">
-    <header class="topbar">
-      <h1>추리 퀴즈 — 우주 고양이 출제자</h1>
-      <p class="notice">주의: 이 이야기는 사망/자살 관련 민감한 내용을 포함합니다.</p>
+
+  <div class="stars" id="stars" aria-hidden="true"></div>
+
+  <main class="wrap">
+
+    <header class="hero">
+      <p class="eyebrow">바다거북 스프 · 추리 퀴즈</p>
+      <h1 class="title">Q. 술과 담배</h1>
+      <p class="intro">
+        한 남자가 술을 마시다가 갑자기 구토를 하였습니다.<br>
+        이어서 담배를 피우려다 죽고 말았습니다.
+      </p>
+      <p class="intro-sub">어떻게 된 것일까요?</p>
     </header>
 
-    <section class="board" role="application">
-      <aside class="left">
-        <div class="space-box" id="spaceBox" aria-hidden="false">
-          <div class="cat" id="cat" role="button" tabindex="0" aria-label="고양이 말풍선을 클릭해 질문을 꺼내세요">
-            <!-- 사용자 이미지(cat.png)를 사용합니다 -->
-            <img src="cat.png" alt="출제자 고양이" id="catImg" ondragstart="return false;">
-            <div class="bubble" id="bubble" aria-live="polite">말풍선을 클릭해 질문을 꺼내세요</div>
+    <section class="stage" aria-label="고양이에게 질문하기">
+
+      <div class="stage-inner">
+
+        <div class="bubble-slot" id="bubbleSlot">
+          <div class="bubble bubble-placeholder" id="bubble">
+            <p class="bubble-q" id="bubbleQ">말풍선을 눌러 질문을 골라보세요</p>
+            <p class="bubble-a" id="bubbleA" hidden></p>
           </div>
         </div>
 
-        <div class="controls">
-          <button id="nextBtn" class="btn primary">다음 질문</button>
-          <button id="shuffleBtn" class="btn">셔플</button>
-          <button id="resetBtn" class="btn">리셋</button>
-          <button id="toggleListBtn" class="btn">문항 목록 보기/숨기기</button>
-        </div>
-      </aside>
+        <button class="cat-btn" id="catBtn" aria-label="질문하기">
+          <canvas id="catCanvas" width="360" height="360"></canvas>
+          <img id="catSource" src="assets/cat.jpg" alt="" hidden>
+        </button>
 
-      <main class="right" aria-live="polite">
-        <section class="panel log" id="logPanel">
-          <div class="panel-head">질문 · 답 로그 (최근)</div>
-          <div id="log" class="panel-body" tabindex="0"></div>
-        </section>
+      </div>
 
-        <section class="panel bank" id="bankPanel" style="display:none;">
-          <div class="panel-head">문항 은행 (교사용)</div>
-          <div id="bank" class="panel-body"></div>
-        </section>
-      </main>
+      <div class="controls">
+        <button class="ask-btn" id="askBtn">
+          <span>질문하기</span>
+        </button>
+        <p class="hint" id="hint">예 · 아니오 · 중요하지 않습니다 로만 답합니다</p>
+      </div>
+
     </section>
 
-    <footer class="foot">
-      <small>이미지 교체: space.jpg, cat.png 파일을 이 폴더에 넣으세요. (투명 배경의 cat.png 권장)</small>
-    </footer>
+    <section class="log-section" aria-label="지금까지 물어본 질문">
+      <div class="log-head">
+        <span>질문 기록</span>
+        <span class="log-count" id="logCount">0</span>
+      </div>
+      <ol class="log" id="log"></ol>
+    </section>
+
+    <section class="reveal-section">
+      <button class="reveal-btn" id="revealBtn">진상 확인하기</button>
+      <div class="reveal-body" id="revealBody" hidden>
+        <p><strong>A.</strong> 남자는 친구의 집에 놀러갔다가 병에 담겨져 있던 액체를 보고 술이라고 생각하여 마시게 되었습니다.</p>
+        <p>하지만 액체는 술이 아닌 휘발유였고, 남자는 놀라 구토를 하며 마셨던 휘발유를 토해냈습니다.</p>
+        <p>그리고 평소 습관대로 담배를 피우려다 토한 휘발유가 묻은 옷에 불이 붙어 죽었습니다.</p>
+      </div>
+    </section>
+
   </main>
 
-  <script src="app.js" defer></script>
+  <script src="script.js"></script>
 </body>
 </html>
