@@ -3,42 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>우주 고양이 퀴즈</title>
-    <link rel="stylesheet" href="style.css">
+    <title>바다거북 수프 추리 게임</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="stars"></div>
-    
     <div class="container">
         <div class="header">
-            <div class="cat">🐱</div>
-            <h1>우주 고양이의 HTML 퀴즈</h1>
+            <h1>🔍 바다거북 수프 추리 게임</h1>
+            <p>탐정과 함께 미스터리를 풀어보세요!</p>
         </div>
 
-        <div id="quiz-container">
-            <div class="progress-bar">
-                <div id="progress" class="progress-fill"></div>
+        <div class="content">
+            <div class="detective-section">
+                <div class="detective-image">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 350'%3E%3Crect fill='%23e8d4b8' width='300' height='350'/%3E%3C/svg%3E" alt="탐정" id="detectiveImage">
+                </div>
+                <div class="detective-speech" id="detectiveSpeech">
+                    "안녕하세요! 저는 이 미스터리의 탐정입니다. 여러분의 질문에 성실하게 답변하겠습니다."
+                </div>
             </div>
-            <p class="progress-text">문제 <span id="current-question">1</span>/10</p>
 
-            <div id="question-box" class="question-box">
-                <h2 id="question-text"></h2>
-                <div id="options" class="options"></div>
-            </div>
+            <div class="game-section">
+                <div class="story-box">
+                    <h3>📖 이야기</h3>
+                    <p>한 남자가 특별한 레스토랑에 있습니다. 그는 바다거북 수프를 주문합니다. 수프를 한 숟가락 맛본 후, 그는 주방장을 불러와 "이게 정말 바다거북 수프인가요?"라고 묻습니다. 주방장이 "네, 틀림없는 바다거북입니다"라고 대답하자, 남자는 고개를 끄덕이고 조용히 수프를 마시다 갑자기 식탁을 떠나 집으로 돌아갑니다.</p>
+                    <p style="margin-top: 10px;"><strong>❓ 대체 무슨 일이 있었을까요?</strong></p>
+                </div>
 
-            <div class="button-group">
-                <button id="prev-btn" class="btn btn-secondary" onclick="prevQuestion()">이전</button>
-                <button id="next-btn" class="btn btn-primary" onclick="nextQuestion()">다음</button>
-            </div>
-        </div>
+                <div class="question-input-area">
+                    <label for="questionInput">질문을 입력하세요 (예/아니오로 답할 수 있는 질문):</label>
+                    <div class="input-group">
+                        <input type="text" id="questionInput" placeholder="예: 남자는 독점적인 소유입니까?" />
+                        <button onclick="askQuestion()">질문하기</button>
+                    </div>
+                </div>
 
-        <div id="result-container" class="result-container hidden">
-            <div class="result-content">
-                <div class="result-cat">😺</div>
-                <h2>퀴즈 완료!</h2>
-                <p class="result-score">점수: <span id="score"></span>/100</p>
-                <div id="result-details" class="result-details"></div>
-                <button class="btn btn-primary" onclick="restartQuiz()">다시 풀기</button>
+                <div class="conversation-history" id="conversationHistory">
+                    <p style="text-align: center; color: #999;">질문을 시작해보세요!</p>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="questionCount">0</div>
+                        <div class="stat-label">질문 수</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="attemptCount">0</div>
+                        <div class="stat-label">정답 시도</div>
+                    </div>
+                </div>
+
+                <div class="answer-section">
+                    <h3>🎯 정답을 맞혀보세요!</h3>
+                    <div class="answer-input-group">
+                        <input type="text" id="answerInput" placeholder="무슨 일이 있었는지 입력하세요..." />
+                        <button onclick="submitAnswer()">정답 제출</button>
+                    </div>
+                    <div id="resultMessage"></div>
+                </div>
             </div>
         </div>
     </div>
