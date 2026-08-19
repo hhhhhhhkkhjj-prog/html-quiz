@@ -3,57 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>커밋 챌린지 — HTML 퀴즈 게임</title>
+<title>모모의 우주 퀴즈</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Baloo+2:wght@500;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<div class="sky">
+  <div class="stars s1"></div>
+  <div class="stars s2"></div>
+  <div class="stars s3"></div>
+  <div class="planet planet-a"></div>
+  <div class="planet planet-b"></div>
+  <div class="planet planet-c"></div>
+</div>
+
 <div class="wrap">
 
   <header class="top">
-    <p class="eyebrow">$ git log --quiz</p>
-    <h1>커밋 챌린지</h1>
-    <p class="sub">HTML 퀴즈 게임 만들기 &amp; 깃허브 배포, 10개의 커밋으로 점검해보세요</p>
+    <h1>✦ 모모의 우주 퀴즈 ✦</h1>
+    <p class="sub">외계인 모모와 함께 HTML 배포 미션을 완수해보세요!</p>
   </header>
 
-  <main class="board">
+  <!-- 행성 진행 트랙 -->
+  <div class="track" id="track"></div>
 
-    <!-- 커밋 그래프 -->
-    <nav class="graph" id="graph" aria-label="진행 상황"></nav>
+  <main class="stage" id="stage">
 
-    <!-- 퀴즈 카드 -->
-    <section class="card" id="quizCard">
-      <div class="card-head">
-        <span class="commit-tag" id="commitTag">commit 1/10</span>
-        <span class="score-tag" id="scoreTag">score 0</span>
+    <div class="mascot-zone">
+      <div class="bubble" id="bubble">
+        <p class="bubble-text" id="bubbleText">문제를 불러오는 중...</p>
       </div>
 
-      <h2 class="question" id="question"></h2>
+      <div class="mascot" id="mascot">
+        <svg viewBox="0 0 220 220" width="180" height="180">
+          <ellipse class="momo-shadow" cx="110" cy="205" rx="55" ry="10"/>
+          <g id="momoBody">
+            <path class="momo-antenna-stem" d="M110 40 L110 15"/>
+            <circle class="momo-antenna-ball" id="antennaBall" cx="110" cy="12" r="8"/>
+            <ellipse class="momo-body" cx="110" cy="120" rx="78" ry="82"/>
+            <ellipse class="momo-cheek" cx="55" cy="132" rx="14" ry="9"/>
+            <ellipse class="momo-cheek" cx="165" cy="132" rx="14" ry="9"/>
+            <g id="eyes">
+              <ellipse class="momo-eye" cx="82" cy="110" rx="16" ry="20"/>
+              <ellipse class="momo-eye" cx="138" cy="110" rx="16" ry="20"/>
+              <circle class="momo-pupil" id="pupilL" cx="86" cy="114" r="7"/>
+              <circle class="momo-pupil" id="pupilR" cx="142" cy="114" r="7"/>
+            </g>
+            <path class="momo-mouth" id="momoMouth" d="M92 152 Q110 166 128 152"/>
+          </g>
+        </svg>
+        <div class="sparkle" id="sparkle">✨</div>
+      </div>
+    </div>
+
+    <div class="panel" id="panel">
+      <div class="panel-head">
+        <span class="pill" id="questionCount">문제 1/10</span>
+        <span class="pill pill-star" id="starCount">⭐ 0</span>
+      </div>
 
       <div class="options" id="options"></div>
 
       <p class="feedback" id="feedback"></p>
 
-      <button class="next-btn" id="nextBtn" disabled>다음 커밋 →</button>
-    </section>
-
-    <!-- 결과 화면 -->
-    <section class="card result" id="resultCard" hidden>
-      <p class="eyebrow">$ git push origin main</p>
-      <h2 class="deploy-title" id="deployTitle">🚀 Deploy 성공</h2>
-      <p class="deploy-score" id="deployScore"></p>
-
-      <ul class="commit-log" id="commitLog"></ul>
-
-      <button class="next-btn" id="restartBtn">다시 도전하기 ↺</button>
-    </section>
+      <button class="next-btn" id="nextBtn" disabled>다음 행성으로 →</button>
+    </div>
 
   </main>
 
+  <!-- 결과 화면 -->
+  <section class="result" id="resultCard" hidden>
+    <div class="mascot result-mascot" id="resultMascot">
+      <svg viewBox="0 0 220 220" width="150" height="150">
+        <ellipse class="momo-body" cx="110" cy="120" rx="78" ry="82"/>
+        <ellipse class="momo-cheek" cx="55" cy="132" rx="14" ry="9"/>
+        <ellipse class="momo-cheek" cx="165" cy="132" rx="14" ry="9"/>
+        <ellipse class="momo-eye" cx="82" cy="110" rx="16" ry="20"/>
+        <ellipse class="momo-eye" cx="138" cy="110" rx="16" ry="20"/>
+        <circle class="momo-pupil" cx="86" cy="106" r="7"/>
+        <circle class="momo-pupil" cx="142" cy="106" r="7"/>
+        <path class="momo-mouth" d="M88 150 Q110 172 132 150"/>
+      </svg>
+    </div>
+    <h2 id="resultTitle">미션 성공! 🚀</h2>
+    <p class="result-score" id="resultScore"></p>
+    <ul class="log" id="log"></ul>
+    <button class="next-btn" id="restartBtn">다시 탐험하기 ↺</button>
+  </section>
+
   <footer class="foot">
-    <p>정답을 맞히면 커밋이 초록색으로, 틀리면 산호색으로 그래프에 기록돼요.</p>
+    <p>모모가 별을 다 모으면 로켓이 발사돼요 🚀</p>
   </footer>
 
 </div>
