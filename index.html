@@ -3,61 +3,53 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>추리 데모 — 우주 고양이</title>
+  <title>추리 데모 — 우주 고양이 (사용자 이미지)</title>
+  <!-- 구글 폰트는 선택사항입니다. 인터넷 연결이 없으면 시스템 폰트가 사용됩니다. -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app">
-    <div class="board" role="application" aria-label="추리 데모">
-      <div class="left">
-        <div class="space-box" id="spaceBox" aria-hidden="false">
-          <div class="cat" id="cat" title="말풍선을 클릭해 질문을 꺼내세요 (고양이가 대답합니다)">
-            <!-- 인라인 SVG 고양이 (선명하고 투명 배경) -->
-            <svg width="180" height="180" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-              <g transform="translate(0,0)">
-                <!-- 몸통 -->
-                <path d="M30 100 Q10 70 20 40 Q30 10 60 20 Q80 10 100 20 Q130 30 130 70 Q135 90 120 110 Q110 125 100 130 Q70 140 40 130 Q30 125 20 110 Z" fill="#000"/>
-                <!-- 눈 (노란) -->
-                <ellipse cx="80" cy="70" rx="14" ry="18" fill="#ffd400"/>
-                <ellipse cx="120" cy="70" rx="14" ry="18" fill="#ffd400"/>
-                <!-- 동공 -->
-                <circle cx="80" cy="72" r="4" fill="#000"/>
-                <circle cx="120" cy="72" r="4" fill="#000"/>
-                <!-- 코 -->
-                <ellipse cx="100" cy="88" rx="5" ry="3" fill="#4b4247"/>
-                <!-- 꼬리 라인 -->
-                <path d="M25 105 Q70 125 115 105" stroke="#2f2f2f" stroke-width="3" fill="none" stroke-linecap="round"/>
-              </g>
-            </svg>
+  <main class="app" aria-label="바다거북 스프 추리 데모">
+    <header class="topbar">
+      <h1>추리 퀴즈 — 우주 고양이 출제자</h1>
+      <p class="notice">주의: 이 이야기는 사망/자살 관련 민감한 내용을 포함합니다.</p>
+    </header>
 
-            <div class="bubble small" id="bubble">말풍선을 클릭해 질문을 꺼내세요</div>
+    <section class="board" role="application">
+      <aside class="left">
+        <div class="space-box" id="spaceBox" aria-hidden="false">
+          <div class="cat" id="cat" role="button" tabindex="0" aria-label="고양이 말풍선을 클릭해 질문을 꺼내세요">
+            <!-- 사용자 이미지(cat.png)를 사용합니다 -->
+            <img src="cat.png" alt="출제자 고양이" id="catImg" ondragstart="return false;">
+            <div class="bubble" id="bubble" aria-live="polite">말풍선을 클릭해 질문을 꺼내세요</div>
           </div>
         </div>
 
         <div class="controls">
-          <button id="nextBtn" class="primary">다음 질문 (랜덤)</button>
-          <button id="shuffleBtn">셔플</button>
-          <button id="resetBtn">리셋</button>
-          <button id="toggleListBtn">문항 목록 보기/숨기기</button>
+          <button id="nextBtn" class="btn primary">다음 질문</button>
+          <button id="shuffleBtn" class="btn">셔플</button>
+          <button id="resetBtn" class="btn">리셋</button>
+          <button id="toggleListBtn" class="btn">문항 목록 보기/숨기기</button>
         </div>
+      </aside>
 
-        <div class="tw" id="tw">내용 주의: 이 시나리오는 사망/자살 관련 민감한 소재를 포함합니다. 학급에서 사용할 때는 사전 안내와 상담 리소스를 준비하세요.</div>
-        <footer>이미지 교체를 원하면 styles.css의 --space-image-url 값을 바꾸세요.</footer>
-      </div>
+      <main class="right" aria-live="polite">
+        <section class="panel log" id="logPanel">
+          <div class="panel-head">질문 · 답 로그 (최근)</div>
+          <div id="log" class="panel-body" tabindex="0"></div>
+        </section>
 
-      <div class="right">
-        <div class="panel" id="logPanel">
-          <div class="meta">질문·답 로그 (최근 50개)</div>
-          <div id="log" tabindex="0" aria-live="polite"></div>
-        </div>
+        <section class="panel bank" id="bankPanel" style="display:none;">
+          <div class="panel-head">문항 은행 (교사용)</div>
+          <div id="bank" class="panel-body"></div>
+        </section>
+      </main>
+    </section>
 
-        <div class="panel" id="bankPanel" style="display:none;">
-          <div class="meta">질문 은행 (랜덤으로 나옵니다)</div>
-          <div id="bank"></div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <footer class="foot">
+      <small>이미지 교체: space.jpg, cat.png 파일을 이 폴더에 넣으세요. (투명 배경의 cat.png 권장)</small>
+    </footer>
+  </main>
 
   <script src="app.js" defer></script>
 </body>
