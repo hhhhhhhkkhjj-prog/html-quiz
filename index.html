@@ -1,104 +1,48 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>모모의 우주 퀴즈</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Jua&family=Baloo+2:wght@500;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우주 고양이 퀴즈</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="cat">🐱</div>
+            <h1>우주 고양이의 HTML 퀴즈</h1>
+        </div>
 
-<div class="sky">
-  <div class="stars s1"></div>
-  <div class="stars s2"></div>
-  <div class="stars s3"></div>
-  <div class="planet planet-a"></div>
-  <div class="planet planet-b"></div>
-  <div class="planet planet-c"></div>
-</div>
+        <div id="quiz-container">
+            <div class="progress-bar">
+                <div id="progress" class="progress-fill"></div>
+            </div>
+            <p class="progress-text">문제 <span id="current-question">1</span>/10</p>
 
-<div class="wrap">
+            <div id="question-box" class="question-box">
+                <h2 id="question-text"></h2>
+                <div id="options" class="options"></div>
+            </div>
 
-  <header class="top">
-    <h1>✦ 모모의 우주 퀴즈 ✦</h1>
-    <p class="sub">외계인 모모와 함께 HTML 배포 미션을 완수해보세요!</p>
-  </header>
+            <div class="button-group">
+                <button id="prev-btn" class="btn btn-secondary" onclick="prevQuestion()">이전</button>
+                <button id="next-btn" class="btn btn-primary" onclick="nextQuestion()">다음</button>
+            </div>
+        </div>
 
-  <!-- 행성 진행 트랙 -->
-  <div class="track" id="track"></div>
-
-  <main class="stage" id="stage">
-
-    <div class="mascot-zone">
-      <div class="bubble" id="bubble">
-        <p class="bubble-text" id="bubbleText">문제를 불러오는 중...</p>
-      </div>
-
-      <div class="mascot" id="mascot">
-        <svg viewBox="0 0 220 220" width="180" height="180">
-          <ellipse class="momo-shadow" cx="110" cy="205" rx="55" ry="10"/>
-          <g id="momoBody">
-            <path class="momo-antenna-stem" d="M110 40 L110 15"/>
-            <circle class="momo-antenna-ball" id="antennaBall" cx="110" cy="12" r="8"/>
-            <ellipse class="momo-body" cx="110" cy="120" rx="78" ry="82"/>
-            <ellipse class="momo-cheek" cx="55" cy="132" rx="14" ry="9"/>
-            <ellipse class="momo-cheek" cx="165" cy="132" rx="14" ry="9"/>
-            <g id="eyes">
-              <ellipse class="momo-eye" cx="82" cy="110" rx="16" ry="20"/>
-              <ellipse class="momo-eye" cx="138" cy="110" rx="16" ry="20"/>
-              <circle class="momo-pupil" id="pupilL" cx="86" cy="114" r="7"/>
-              <circle class="momo-pupil" id="pupilR" cx="142" cy="114" r="7"/>
-            </g>
-            <path class="momo-mouth" id="momoMouth" d="M92 152 Q110 166 128 152"/>
-          </g>
-        </svg>
-        <div class="sparkle" id="sparkle">✨</div>
-      </div>
+        <div id="result-container" class="result-container hidden">
+            <div class="result-content">
+                <div class="result-cat">😺</div>
+                <h2>퀴즈 완료!</h2>
+                <p class="result-score">점수: <span id="score"></span>/100</p>
+                <div id="result-details" class="result-details"></div>
+                <button class="btn btn-primary" onclick="restartQuiz()">다시 풀기</button>
+            </div>
+        </div>
     </div>
 
-    <div class="panel" id="panel">
-      <div class="panel-head">
-        <span class="pill" id="questionCount">문제 1/10</span>
-        <span class="pill pill-star" id="starCount">⭐ 0</span>
-      </div>
-
-      <div class="options" id="options"></div>
-
-      <p class="feedback" id="feedback"></p>
-
-      <button class="next-btn" id="nextBtn" disabled>다음 행성으로 →</button>
-    </div>
-
-  </main>
-
-  <!-- 결과 화면 -->
-  <section class="result" id="resultCard" hidden>
-    <div class="mascot result-mascot" id="resultMascot">
-      <svg viewBox="0 0 220 220" width="150" height="150">
-        <ellipse class="momo-body" cx="110" cy="120" rx="78" ry="82"/>
-        <ellipse class="momo-cheek" cx="55" cy="132" rx="14" ry="9"/>
-        <ellipse class="momo-cheek" cx="165" cy="132" rx="14" ry="9"/>
-        <ellipse class="momo-eye" cx="82" cy="110" rx="16" ry="20"/>
-        <ellipse class="momo-eye" cx="138" cy="110" rx="16" ry="20"/>
-        <circle class="momo-pupil" cx="86" cy="106" r="7"/>
-        <circle class="momo-pupil" cx="142" cy="106" r="7"/>
-        <path class="momo-mouth" d="M88 150 Q110 172 132 150"/>
-      </svg>
-    </div>
-    <h2 id="resultTitle">미션 성공! 🚀</h2>
-    <p class="result-score" id="resultScore"></p>
-    <ul class="log" id="log"></ul>
-    <button class="next-btn" id="restartBtn">다시 탐험하기 ↺</button>
-  </section>
-
-  <footer class="foot">
-    <p>모모가 별을 다 모으면 로켓이 발사돼요 🚀</p>
-  </footer>
-
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
