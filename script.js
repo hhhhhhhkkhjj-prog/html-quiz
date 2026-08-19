@@ -1,4 +1,6 @@
-// app.js: 질문 은행 + UI 동작 (인라인 SVG 고양이와 우주 배경 사용)
+// app.js — 고양이 말풍선 인터랙션 및 질문 은행 (이미지: space.jpg, cat.png 사용)
+// 기능 개선: 말풍선 애니메이션, 키보드 접근성, 깔끔한 로그 포맷
+
 const qaList = [
   {q:"남자가 마신 액체는 실제로 술이었습니까?", a:"아니오."},
   {q:"남자는 그 액체를 술이라고 생각하고 마셨습니까?", a:"예."},
@@ -40,6 +42,7 @@ let bank = [...qaList];
 let log = [];
 const maxLog = 50;
 
+// DOM 요소
 const catEl = document.getElementById('cat');
 const bubbleEl = document.getElementById('bubble');
 const nextBtn = document.getElementById('nextBtn');
@@ -54,71 +57,80 @@ function renderBank(){
   if(!bankEl) return;
   bankEl.innerHTML = '';
   bank.forEach((item, idx) => {
-    const d = document.createElement('div');
-    d.className = 'qa';
-    d.innerHTML = `<strong>Q${idx+1}.</strong> ${item.q} <div style="color:#9fb6d3;margin-top:6px;"><em>정답: ${item.a}</em></div>`;
-    bankEl.appendChild(d);
+    const wrap = document.createElement('div');
+    wrap.className = 'qa';
+    wrap.innerHTML = `<div class="time">Q${idx+1}</div>
+      <div class="q">${item.q}</div>
+      <div class="a">${item.a}</div>`;
+    bankEl.appendChild(wrap);
   });
 }
 
-function addLog(entry){
-  log.unshift(entry);
+function addLog(item){
+  log.unshift(item);
   if(log.length>maxLog) log.pop();
   renderLog();
 }
 
 function renderLog(){
-  if(!logEl) return;
   logEl.innerHTML = '';
-  log.forEach((it) => {
+  if(log.length===0){ logEl.innerHTML = '<div class="qa">아직 질문이 없습니다.</div>'; return; }
+  log.forEach(it=>{
     const d = document.createElement('div');
     d.className = 'qa';
-    d.innerHTML = `<div style="font-size:13px;color:#9fb6d3">${it.time}</div><div style="margin-top:6px"><strong>질문:</strong> ${it.q}</div><div style="margin-top:6px;color:#dff"><strong>답:</strong> ${it.a}</div>`;
+    d.innerHTML = `<div class="time">${it.time}</div>
+                   <div class="q">${it.q}</div>
+                   <div class="a">${it.a}</div>`;
     logEl.appendChild(d);
   });
 }
 
 function randIndex(n){ return Math.floor(Math.random()*n); }
 
-let isBusy = false;
-async function askNextRandom(){
+let isBusy=false;
+async function showRandomQA(){
   if(isBusy) return;
-  isBusy = true;
+  isBusy=true;
   if(bank.length===0){
-    bubbleEl.textContent = "모든 문항을 다 봤습니다. 리셋하세요.";
-    isBusy = false;
+    showBubbleText("모든 문항을 다 봤습니다. 리셋하세요.");
+    isBusy=false;
     return;
   }
   const idx = randIndex(bank.length);
   const item = bank.splice(idx,1)[0];
 
-  bubbleEl.style.transform = 'scale(0.98)';
-  bubbleEl.textContent = item.q;
-
-  await new Promise(r => setTimeout(r, 650));
-
-  bubbleEl.style.transform = 'scale(1)';
-  bubbleEl.textContent = item.q + "  →  " + item.a;
-
+  // 말풍선에 질문 보이기, 잠깐 후 답 표시
+  showBubbleText(item.q);
+  await sleep(650);
+  showBubbleText(`${item.q}  →  ${item.a}`);
   addLog({q:item.q, a:item.a, time:new Date().toLocaleString()});
   renderBank();
-  isBusy = false;
+  isBusy=false;
 }
 
-catEl.addEventListener('click', askNextRandom);
-nextBtn.addEventListener('click', askNextRandom);
+function showBubbleText(text){
+  bubbleEl.textContent = text;
+  bubbleEl.classList.add('visible');
+  // 숨기기 타이머 (몇 초 후 자동으로 사라지게 하고 싶으면 주석 해제)
+  // clearTimeout(bubbleTimer); bubbleTimer = setTimeout(()=>bubbleEl.classList.remove('visible'), 3500);
+}
+
+function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
+
+// 이벤트 바인딩
+catEl.addEventListener('click', showRandomQA);
+catEl.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showRandomQA(); } });
+nextBtn.addEventListener('click', showRandomQA);
 
 shuffleBtn.addEventListener('click', ()=>{
-  for(let i=bank.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [bank[i], bank[j]] = [bank[j], bank[i]];
-  }
+  for(let i=bank.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [bank[i],bank[j]] = [bank[j],bank[i]]; }
   renderBank();
 });
 
 resetBtn.addEventListener('click', ()=>{
   bank = [...qaList];
   log = [];
+  bubbleEl.classList.remove('visible');
   bubbleEl.textContent = "말풍선을 클릭해 질문을 꺼내세요";
   renderBank();
   renderLog();
@@ -128,5 +140,6 @@ toggleListBtn.addEventListener('click', ()=>{
   bankPanel.style.display = bankPanel.style.display === 'none' ? 'block' : 'none';
 });
 
+// 초기 렌더
 renderBank();
 renderLog();
